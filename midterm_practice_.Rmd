@@ -1,0 +1,20 @@
+---
+title: "Midterm Practice"
+author: "Sarah Roffo"
+date: "10/12/2017"
+output: html_document
+---
+
+```{r}
+library(MASS)
+df <- Cars93
+```
+
+## Question 1
+
+```{r}
+price <- df[df$Type == "Compact", "Price"]
+min(price)
+df[df$Type == "Compact" & df$Price == 11.1, c("Manufacturer", "Model")]
+```
+
