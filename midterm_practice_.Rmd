@@ -2,19 +2,338 @@
 title: "Midterm Practice"
 author: "Sarah Roffo"
 date: "10/12/2017"
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
 ---
+
+##Lab 1
+
+```{r}
+library(MASS)
+library(moments)
+df <- Cars93
+```
+
+### Question 1 data(Cars93) in the MASS package contains data from 93 cars on sale in 1993. 
+
+###Question 1a: Find the cheapest priced car in each Type. Find out the manufacturer and model:
+
+```{r}
+price <- df[df$Type == "Compact", "Price"]
+min(price)
+df[df$Type == "Compact" & df$Price == 11.1, c("Manufacturer", "Model")]
+
+price <- df[df$Type == "Large", "Price"]
+min(price)
+df[df$Type == "Large" & df$Price == 18.4, c("Manufacturer", "Model")]
+
+price <- df[df$Type == "Midsize", "Price"]
+min(price)
+df[df$Type == "Midsize" & df$Price == 13.9, c("Manufacturer", "Model")]
+
+price <- df[df$Type == "Small", "Price"]
+min(price)
+df[df$Type == "Small" & df$Price == 7.4, c("Manufacturer", "Model")]
+
+price <- df[df$Type == "Sporty", "Price"]
+min(price)
+df[df$Type == "Sporty" & df$Price == 10.0, c("Manufacturer", "Model")]
+
+price <- df[df$Type == "Van", "Price"]
+min(price)
+df[df$Type == "Van" & df$Price == 16.3, c("Manufacturer", "Model")]
+```
+
+###Question 1b:  Find the car with the greatest fuel efficiency (MPG.highway) in each type. Give the Manufacturer and Model:
+
+```{r}
+mpg <- df[df$Type == "Compact", "MPG.highway"]
+max(mpg)
+df[df$Type == "Compact" & df$MPG.highway == 36, c("Manufacturer", "Model")]
+
+mpg <- df[df$Type == "Large", "MPG.highway"]
+max(mpg)
+df[df$Type == "Large" & df$MPG.highway == 28, c("Manufacturer", "Model")]
+
+mpg<- df[df$Type == "Midsize", "MPG.highway"]
+max(mpg)
+df[df$Type == "Midsize" & df$MPG.highway == 31, c("Manufacturer", "Model")]
+
+mpg <- df[df$Type == "Small", "MPG.highway"]
+max(mpg)
+df[df$Type == "Small" & df$MPG.highway == 50, c("Manufacturer", "Model")]
+
+mpg <- df[df$Type == "Sporty", "MPG.highway"]
+max(mpg)
+df[df$Type == "Sporty" & df$MPG.highway == 36, c("Manufacturer", "Model")]
+
+mpg <- df[df$Type == "Van", "MPG.highway"]
+max(mpg)
+df[df$Type == "Van" & df$MPG.highway == 24, c("Manufacturer", "Model")]
+```
+
+###Question 2
+
+###Question 2a: Compute the mean horsepower for each type:
+
+```{r}
+##compact
+hp_c <- df[df$Type == "Compact", "Horsepower"]
+mean_hp_c <- mean(hp_c)
+
+##large
+hp_l <- df[df$Type == "Large", "Horsepower"]
+mean_hp_l <- mean(hp_l)
+
+##midsize
+hp_m <- df[df$Type == "Midsize", "Horsepower"]
+mean_hp_m <- mean(hp_m)
+
+##small
+hp_sm <- df[df$Type == "Small", "Horsepower"]
+mean_hp_sm <- mean(hp_sm)
+
+##sporty
+hp_sp <- df[df$Type == "Sporty", "Horsepower"]
+mean_hp_sp <- mean(hp_sp)
+
+##van
+hp_v <- df[df$Type == "Van", "Horsepower"]
+mean_hp_v <- mean(hp_v)
+```
+
+###Question 2b: Compute the difference between each car's horsepower and mean for its Type. Calculate the Skewness and Kurtosis of the differences in Horsepower for each type:
+
+```{r}
+##compact
+compact <- df[df$Type == "Compact", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_c - mean_hp_c
+cbind(compact, Diff)
+skewness(Diff)
+kurtosis(Diff)
+
+##Large
+Large <- df[df$Type == "Large", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_l - mean_hp_l
+cbind(Large, Diff)
+skewness(Diff)
+kurtosis(Diff)
+
+##Midsize
+Midsize <- df[df$Type == "Midsize", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_m - mean_hp_m
+cbind(Midsize, Diff)
+skewness(Diff)
+kurtosis(Diff)
+
+##Small
+Small <- df[df$Type == "Small", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_sm - mean_hp_sm
+cbind(Small, Diff)
+skewness(Diff)
+kurtosis(Diff)
+
+##Sporty
+Sporty <- df[df$Type == "Sporty", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_sp - mean_hp_sp
+cbind(Sporty, Diff)
+skewness(Diff)
+kurtosis(Diff)
+
+
+##Van
+Van <- df[df$Type == "Van", c("Manufacturer", "Model", "Horsepower")]
+Diff <- hp_v - mean_hp_v
+cbind(Van, Diff)
+skewness(Diff)
+kurtosis(Diff)
+```
+
+###Question 3: Make two new dataframes for USA and non-USA cars:
+
+```{r}
+USA.df <- df[df$Origin == "USA",]
+non_USA.df <- df[df$Origin == "non-USA",]
+```
+
+###Question 4: Save the USA datafram as a csv file. Read it in and check that all factors are set as factors
+
+```{r}
+write.csv(USA.df, file = "USA.df.csv")
+tbl <- read.csv("USA.df.csv")
+str(tbl)
+```
+
+
+##Lab 3
 
 ```{r}
 library(MASS)
 df <- Cars93
 ```
 
-## Question 1
+###Question 1: Question 1 data(Cars93) in the MASS package contains data from 93 cars on sale in 1993.
+
+###Question 1a: Randomly select 40 cars as the training dataset and the remaining 53 cars as the test dataset:
 
 ```{r}
-price <- df[df$Type == "Compact", "Price"]
-min(price)
-df[df$Type == "Compact" & df$Price == 11.1, c("Manufacturer", "Model")]
+set.seed(12)
+training_dataset <- sample(1:nrow(df), 40, replace = FALSE)
+index <- as.numeric(row.names(df))
+test_dataset <- index[- training_dataset]
+```
+
+###Question 1b: Save both datasets as csv files:
+
+```{r}
+write.csv(training_dataset, file = "Training.Dataset.csv")
+write.csv(test_dataset, file = "Test.Dataset.csv")
+
+```
+
+###Question 1c: Find out the number of USA and non-USA cars in the training dataset:
+
+```{r}
+training_df <- df[training_dataset,]
+USA <- training_df[training_df$Origin == "USA",]
+non_USA <- training_df[training_df$Origin == "non-USA",]
+nrow(USA)
+nrow(non_USA)
+```
+
+###Question 2: Assume that the probabilities of boy and girl births are 0.515 and 0.485 respectively. 
+
+###Question 2a:Use the sample() function to simulate 10 births and print out the result. How many boys and girls do you get out if ten births? Then simulate 10,000 births. How many boys and girls do you get out of 10,000 births?
+
+```{r}
+births <- sample(c("Boy", "Girl"), 10, prob = c(0.515, 0.485), replace = TRUE)
+table(births)
+many_births <- sample(c("Boy", "Girl"), 10000, prob = c(0.515, 0.485), replace = TRUE)
+table(many_births)
+```
+
+###Question 3: Assume that the probabilities of boy and girl births are 0.515 and 0.485 respectively. 
+
+###Question 3a: What is the probability of having exactly 3 births out of 10?
+
+```{r}
+dbinom(3, 10, prob = 0.515)
+```
+
+###Question 3b: What is the probability of having 8 or more boys out of 10?
+
+```{r}
+pbinom(8, 10, prob = 0.515, lower.tail = FALSE)
+```
+
+
+###Question 3c: Plot the density function of the number of boy births out of ten:
+
+```{r}
+n <- 10
+x <- 1:n
+y <- dbinom(x, 10, prob = 0.515)
+plot(x,y, pch = 16, type = "b", col = "red")
+```
+
+###Question 3d: Plot the cumulative probability function of the number of boy births out of ten:
+
+```{r}
+n <- 10
+x <- 1:n
+y <- pbinom(x, 10, prob = 0.515)
+plot(x,y, pch = 16, type = "b", col = "blue")
+```
+
+###Question 4: Cars arrive randomly at a traffic light at a rate of 5 every 10 seconds. 
+
+###Question 4a: What's the probability that exactly 4 cards arrive in the next 10 seconds?
+
+```{r}
+dpois(4, 5)
+```
+
+
+###Question 4b: What's the probability that more than 5 cars arrive in the next ten seconds?
+
+```{r}
+ppois(5, 5, lower.tail = FALSE)
+```
+
+###Question 4c: Plot the density function of 0-20 cars arriving in the next ten seconds:
+
+```{r}
+n <- 20
+x <- 1:n
+y <- dpois(x, 5)
+plot(x,y, pch = 16, type = "b", col = "orange")
+```
+
+##Lab 4
+
+###Question 1: The number of points scored by a team in a tournament is normally distributed, with mean = 32, sd = 7. What is the probability of:
+
+###Question 1a: What is the probability of a team scoring 20 points or fewer? Plot the density function and shade the area. 
+
+```{r}
+pnorm(20, mean = 32, sd = 7)
+curve(dnorm(x, mean = 32, sd = 7), from = 11, to = 53)
+cord.x <- c(0, seq(0, 20, by = 0.01), 20)
+cord.y <- c(0, dnorm(seq(0, 20, 0.01), mean = 32, sd = 7), 0)
+polygon(cord.x, cord.y, col = "blue")
+```
+
+###Question 1b: What is the probability of a team scoring more than 35 points? Plot the density function and shade the area. 
+
+```{r}
+pnorm(35, mean = 32, sd = 7, lower.tail = FALSE)
+curve(dnorm(x, mean = 32, sd = 7), from = 11, to = 53)
+cord.x <- c(35, seq(35, 53, by = 0.01), 53)
+cord.y <- c(0, dnorm(seq(35, 53, 0.01), mean = 32, sd = 7), 0)
+polygon(cord.x, cord.y, col = "red")
+```
+
+###Question 1c: What is the probability of a team scoring between 20 and 40 points? Plot the density function and shade the area. 
+
+```{r}
+diff(pnorm(c(20,40), mean = 32, sd = 7))
+curve(dnorm(x, mean = 32, sd = 7), from = 11, to = 53)
+cord.x <- c(20, seq(20, 40, by = 0.01), 40)
+cord.y <- c(0, dnorm(seq(20, 40, 0.01), mean = 32, sd = 7), 0)
+polygon(cord.x, cord.y, col = "green")
+```
+
+###Question 2: The number of comments per post on a social media site is exponentiall distributed, with the average post recieving ten comments. What percentage of posts get: 
+
+###Question 2a: Fewer than three comments? Plot the density function and shade the area:
+
+```{r}
+pexp(3, 1/10)
+curve(dexp(x, 1/10), from = 0, to = 100)
+cord.x <- c(0, seq(0, 3, by = 0.01), 3)
+cord.y <- c(0, dexp(seq(0, 3, 0.01), 1/10), 0)
+polygon(cord.x, cord.y, col = "red")
+```
+
+###Question 2b: More than twenty comments? Plot the density function and shade the area:
+
+```{r}
+pexp(20, 1/10, lower.tail = FALSE)
+curve(dexp(x, 1/10), from = 0, to = 100)
+cord.x <- c(20, seq(20, 100, by = 0.01), 100)
+cord.y <- c(0, dexp(seq(20, 100, 0.01), 1/10), 0)
+polygon(cord.x, cord.y, col = "blue")
+```
+
+###Question 2c: Between five and ten comments? Plot the density function and shade the area:
+
+```{r}
+diff(pexp(c(5, 10), 1/10))
+curve(dexp(x, 1/10), from = 0, to = 100)
+cord.x <- c(5, seq(5, 10, by = 0.01), 10)
+cord.y <- c(0, dexp(seq(5, 10, 0.01), 1/10), 0)
+polygon(cord.x, cord.y, col = "green")
 ```
 
